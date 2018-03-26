@@ -1,0 +1,19 @@
+<html>
+<header>
+    <title>Solarstorm</title>
+</header>
+<script type="text/javascript">
+    function getImageTag() {
+        var randomIndex = Math.floor((Math.random() * 5) + 1);
+        var img = '<img src=\"/gifs/';
+        img += "0" + randomIndex + ".gif";
+        img += '\"/>';
+        return img
+    }
+</script>
+<body>
+    <script type="text/javascript">
+        document.write(getImageTag());
+    </script>
+</body>
+</html>
