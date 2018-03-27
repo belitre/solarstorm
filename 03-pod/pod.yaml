@@ -1,0 +1,86 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: splinter-ux-ninja-helper-65f8dcfb89-6xpp9
+  namespace: miguelsantiago
+  labels:
+    app: ux-ninja-helper
+    release: splinter
+spec:
+  containers:
+    - name: ux-ninja-helper
+      image: 'nginx:stable'
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 80
+          protocol: TCP
+          name: serverPort
+      resources:
+        limits:
+          memory: 8Mi
+          cpu: 10m
+        requests:
+          cpu: 10m
+          memory: 8Mi
+      volumeMounts:
+        - name: html-static
+          readOnly: true
+          mountPath: /usr/share/nginx/html
+        - name: htpasswd
+          readOnly: true
+          mountPath: /etc/nginx/auth/
+        - name: nginx-config
+          readOnly: true
+          mountPath: /etc/nginx/conf.d/
+        - name: default-token-6qxvx
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      
+    - resources:
+        limits:
+          cpu: 5m
+          memory: 20Mi
+        requests:
+          cpu: 5m
+          memory: 20Mi
+      name: ux-ninja-helper-sidecar
+      env:
+        - name: GIT_SYNC_REPO
+          value: 'git@github.com:logicnow/UXwebdemo'
+        - name: GIT_SYNC_BRANCH
+          value: master
+        - name: GIT_SYNC_WAIT
+          value: '300'
+        - name: GIT_SYNC_DEST
+          value: test
+        - name: GIT_SYNC_SSH
+          value: 'true'
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - name: html-static
+          mountPath: /git
+        - name: github-ssh
+          mountPath: /etc/git-secret
+        - name: default-token-6qxvx
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      image: 'index.docker.io/belitre/git-sync:0.1'
+  volumes:
+    - name: html-static
+      emptyDir: {}
+    - name: htpasswd
+      secret:
+        secretName: splinter-ux-ninja-helper-htpasswd
+        defaultMode: 420
+    - name: nginx-config
+      configMap:
+        name: splinter-ux-ninja-helper-nginx-cfg
+        defaultMode: 420
+    - name: github-ssh
+      secret:
+        secretName: splinter-ux-ninja-helper-github-key
+        defaultMode: 256
+    - name: default-token-6qxvx
+      secret:
+        secretName: default-token-6qxvx
+        defaultMode: 420
