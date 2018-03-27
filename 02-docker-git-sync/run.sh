@@ -8,5 +8,6 @@ docker run --name gitsync \
     -v $DIR/git_repo:/git \
     -e GIT_SYNC_REPO=https://github.com/belitre/solarstorm \
     -e GIT_SYNC_BRANCH=master \
-    -e GIT_SYNC_ONE_TIME=true
+    -e GIT_SYNC_ONE_TIME=true \
+    -e GYT_SYNC_DEST=solarstorm \
     --rm belitre/git-sync:0.1
