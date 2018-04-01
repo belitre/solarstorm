@@ -26,7 +26,7 @@ spec:
   containers:
     - name: nginx
       image: 'index.docker.io/belitre/nginx:0.1'
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
       env:
         - name: CONF_TEMPLATE
           value: '/var/conf/default.conf'

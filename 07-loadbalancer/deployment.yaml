@@ -24,7 +24,7 @@ spec:
           env:
             - name: CONF_TEMPLATE
               value: '/var/conf/default.conf'
-            - name: GIFS_ROOT_PATH
+            - name: HTML_PATH
               value: '/var/git/solarstorm/resources/cats_and_dogs'
           ports:
             - containerPort: 80
