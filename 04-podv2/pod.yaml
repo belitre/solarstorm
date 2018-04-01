@@ -7,30 +7,14 @@ metadata:
     app: nginx
     release: kittens
 spec:
-  initContainers:
-    - name: git-sync
-      image: 'index.docker.io/belitre/git-sync:0.1'
-      imagePullPolicy: IfNotPresent
-      env:
-        - name: GIT_SYNC_REPO
-          value: 'https://github.com/belitre/solarstorm'
-        - name: GIT_SYNC_BRANCH
-          value: master
-        - name: GIT_SYNC_ONE_TIME
-          value: 'true'
-        - name: GIT_SYNC_DEST
-          value: solarstorm
-      volumeMounts:
-        - name: git-repo
-          mountPath: /git
   containers:
     - name: nginx
       image: 'index.docker.io/belitre/nginx:0.1'
-      imagePullPolicy: Always
+      imagePullPolicy: IfNotPresent
       env:
         - name: CONF_TEMPLATE
           value: '/var/conf/default.conf'
-        - name: HTML_PATH
+        - name: GIFS_ROOT_PATH
           value: '/var/git/solarstorm/resources/cats'
       ports:
         - containerPort: 80
@@ -43,6 +27,21 @@ spec:
         - name: nginx-conf
           readOnly: true
           mountPath: /var/conf
+    - name: git-sync
+      image: 'index.docker.io/belitre/git-sync:0.1'
+      imagePullPolicy: IfNotPresent
+      env:
+        - name: GIT_SYNC_REPO
+          value: 'https://github.com/belitre/solarstorm'
+        - name: GIT_SYNC_BRANCH
+          value: master
+        - name: GIT_SYNC_WAIT
+          value: '300'
+        - name: GIT_SYNC_DEST
+          value: solarstorm
+      volumeMounts:
+        - name: git-repo
+          mountPath: /git
   volumes:
     - name: git-repo
       emptyDir: {}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-template
+  namespace: miguelsantiago
+data:
+  default.conf: |-
+    server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            root   _HTML_PATH_;
+            index  index.html index.htm;
+        }
+    }
