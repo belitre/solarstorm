@@ -25,7 +25,7 @@ spec:
             - name: CONF_TEMPLATE
               value: '/var/conf/default.conf'
             - name: HTML_PATH
-              value: '/var/git/solarstorm/resources/cats_and_dogs'
+              value: '/var/git/solarstorm/resources/dogs'
           ports:
             - containerPort: 80
               protocol: TCP
