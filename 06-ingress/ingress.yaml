@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kitten-ingress
+  namespace: k8sprimitives1
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: k8sprimitives1.k8sdemos.test-infra.ouzi.io
+    http:
+      paths:
+      - path: /kittens(/|$)(.*)
+        backend:
+          serviceName: kittens
+          servicePort: http
+      - path: /dogs(/|$)(.*)
+        backend:
+          serviceName: dogs
+          servicePort: http
+      - path: /random(/|$)(.*)
+        backend:
+          serviceName: all
+          servicePort: http
+  tls:
+  - hosts:
+    - k8sprimitives1.k8sdemos.test-infra.ouzi.io
+    secretName: k8sprimitives1-cert
