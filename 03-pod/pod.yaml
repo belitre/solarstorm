@@ -2,7 +2,7 @@ kind: Pod
 apiVersion: v1
 metadata:
   name: kittens-web-server
-  namespace: miguelsantiago
+  namespace: k8sprimitives1
   labels:
     app: nginx
     release: kittens
@@ -15,7 +15,7 @@ spec:
         - name: CONF_TEMPLATE
           value: '/var/conf/default.conf'
         - name: HTML_PATH
-          value: '/var/git/solarstorm/resources/cats'
+          value: '/var/git/k8sprimitives1/resources/cats'
       ports:
         - containerPort: 80
           protocol: TCP
@@ -27,21 +27,35 @@ spec:
         - name: nginx-conf
           readOnly: true
           mountPath: /var/conf
+      resources:
+        limits:
+          cpu: "0.1"
+          memory: "50M"
+        requests:
+          cpu: "0.1"
+          memory: "50M"
     - name: git-sync
       image: 'index.docker.io/belitre/git-sync:0.1'
       imagePullPolicy: IfNotPresent
       env:
         - name: GIT_SYNC_REPO
-          value: 'https://github.com/belitre/solarstorm'
+          value: 'https://github.com/ouzi-dev/solarstorm'
         - name: GIT_SYNC_BRANCH
           value: master
         - name: GIT_SYNC_WAIT
           value: '300'
         - name: GIT_SYNC_DEST
-          value: solarstorm
+          value: k8sprimitives1
       volumeMounts:
         - name: git-repo
           mountPath: /git
+      resources:
+        limits:
+          cpu: "0.1"
+          memory: "50M"
+        requests:
+          cpu: "0.1"
+          memory: "50M"
   volumes:
     - name: git-repo
       emptyDir: {}

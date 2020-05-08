@@ -1,4 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: miguelsantiago
+  name: k8sprimitives1
