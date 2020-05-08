@@ -1,5 +1,12 @@
 # k8s primitives 1 workshop
 
+## Pre-reqs 
+
+This assumes that you can run docker locally and that you have a kubernetes cluster setup with:
+- external-dns
+- cert-manager
+- nginx-ingress-controller
+
 ## Overview
 
 We will go through a journey running simple application which serves gifs of cats and dogs.
@@ -67,7 +74,7 @@ kubectl apply -f 05-service/
 
 ### 06 - Create an ingress object that makes those pods available to the external world
 
-In this step we will create an Ingress object that exposes the pods under [k8sprimitives1.k8sdemos.test-infra.ouzi.io](k8sprimitives1.k8sdemos.test-infra.ouzi.io)
+In this step we will create an Ingress object that exposes the pods under https://k8sprimitives1.k8sdemos.test-infra.ouzi.io
 
 Run:
 ```
